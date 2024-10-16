@@ -119,7 +119,7 @@ while true do
 
         -- Wait for a short period to allow crafting
         print("Waiting for crafting to complete...")
-        sleep(2)  -- Adjust timing as necessary
+        sleep(4)  -- Adjust timing as necessary
 
         -- Suck up the resulting item into slot 16
         suckUpResultingItem()
