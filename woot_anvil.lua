@@ -45,12 +45,28 @@ local function moveItemToMechanicalUser()
     end
 end
 
--- Function to trigger redstone pulse
-local function triggerRedstone(side)
-    print("Triggering redstone pulse on", side)
+-- Function to keep redstone signal active until condition is met
+local function holdRedstoneUntil(side, conditionCheck)
+    print("Activating redstone signal on", side)
     redstone.setOutput(side, true)
-    sleep(0.1)  -- 0.1 seconds pulse
+    
+    -- Wait until the condition check returns true
+    while not conditionCheck() do
+        sleep(0.1)  -- Check every 0.1 seconds
+    end
+    
+    print("Deactivating redstone signal on", side)
     redstone.setOutput(side, false)
+end
+
+-- Function to check if mechanical user slot 1 is empty
+local function isMechanicalUserSlotEmpty()
+    return mechanicalUser.getItemDetail(1) == nil
+end
+
+-- Function to check if mechanical user slot 1 has an item (for retrieval)
+local function isMechanicalUserSlotFull()
+    return mechanicalUser.getItemDetail(1) ~= nil
 end
 
 -- Function to drop items from slots 1-13 onto the anvil
@@ -75,8 +91,6 @@ end
 -- Function to return the crafting item left on the anvil to slot 15
 local function returnItemFromMechanicalUser()
     print("Returning any item left in Mechanical User slot 1 to turtle slot 15")
-    -- Trigger another redstone pulse on the right side
-    triggerRedstone("right")
     
     -- Move item from mechanical user slot 1 to turtle slot 15
     local success = mechanicalUser.pushItems(turtleName, 1, 1, 15)
@@ -94,8 +108,8 @@ while true do
         -- Move item from slot 14 to mechanical user slot 1
         moveItemToMechanicalUser()
         
-        -- Trigger redstone output on the right (mechanical user activation)
-        triggerRedstone("right")
+        -- Hold redstone signal until item leaves mechanical user slot 1
+        holdRedstoneUntil("right", isMechanicalUserSlotEmpty)
 
         -- Drop items from slots 1-13 onto the anvil
         dropItemsOntoAnvil()
@@ -109,6 +123,9 @@ while true do
 
         -- Suck up the resulting item into slot 16
         suckUpResultingItem()
+
+        -- Hold redstone signal on right until item returns to mechanical user slot 1
+        holdRedstoneUntil("right", isMechanicalUserSlotFull)
 
         -- Return the crafting item from the mechanical user to slot 15
         returnItemFromMechanicalUser()
