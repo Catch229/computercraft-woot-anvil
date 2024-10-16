@@ -61,12 +61,12 @@ end
 
 -- Function to check if mechanical user slot 1 is empty
 local function isMechanicalUserSlotEmpty()
-    return mechanicalUser.getItemDetail(1) == nil
+    return mechanicalUser.list() == 0
 end
 
 -- Function to check if mechanical user slot 1 has an item (for retrieval)
 local function isMechanicalUserSlotFull()
-    return mechanicalUser.getItemDetail(1) ~= nil
+    return mechanicalUser.list() ~= 0
 end
 
 -- Function to drop items from slots 1-13 onto the anvil
