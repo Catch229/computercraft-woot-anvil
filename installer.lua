@@ -1,4 +1,4 @@
-url = "https://raw.githubusercontent.com/Catch229/computercraft-draconic-crafter/refs/heads/main/fusion.lua"
+url = "https://raw.githubusercontent.com/Catch229/computercraft-woot-anvil/refs/heads/main/woot_anvil.lua"
 programName = "CC Auto Woot Anvil"
 fileLoc = "woot_anvil.lua"
 
