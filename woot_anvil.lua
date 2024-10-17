@@ -49,7 +49,7 @@ end
 local function triggerRedstone(side)
     print("Triggering redstone pulse on", side)
     redstone.setOutput(side, true)
-    sleep(0.1)  -- 0.1 seconds pulse
+    sleep(2)  -- 0.1 seconds pulse
     redstone.setOutput(side, false)
 end
 
