@@ -45,6 +45,14 @@ local function moveItemToMechanicalUser()
     end
 end
 
+-- Function to trigger redstone pulse
+local function triggerRedstone(side)
+    print("Triggering redstone pulse on", side)
+    redstone.setOutput(side, true)
+    sleep(0.1)  -- 0.1 seconds pulse
+    redstone.setOutput(side, false)
+end
+
 -- Function to keep redstone signal active until condition is met
 local function holdRedstoneUntil(side, conditionCheck)
     print("Activating redstone signal on", side)
@@ -59,14 +67,14 @@ local function holdRedstoneUntil(side, conditionCheck)
     redstone.setOutput(side, false)
 end
 
--- Function to check if mechanical user slot 1 is empty
+-- Function to check if mechanical user slot 1 is empty using list()
 local function isMechanicalUserSlotEmpty()
-    return mechanicalUser.list() == 0
+    return mechanicalUser.list()[1] == nil
 end
 
--- Function to check if mechanical user slot 1 has an item (for retrieval)
+-- Function to check if mechanical user slot 1 has an item (for retrieval) using list()
 local function isMechanicalUserSlotFull()
-    return mechanicalUser.list() ~= 0
+    return mechanicalUser.list()[1] ~= nil
 end
 
 -- Function to drop items from slots 1-13 onto the anvil
@@ -119,7 +127,7 @@ while true do
 
         -- Wait for a short period to allow crafting
         print("Waiting for crafting to complete...")
-        sleep(4)  -- Adjust timing as necessary
+        sleep(2)  -- Adjust timing as necessary
 
         -- Suck up the resulting item into slot 16
         suckUpResultingItem()
